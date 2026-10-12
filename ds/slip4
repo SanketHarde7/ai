@@ -7,7 +7,6 @@ Q1:
 # customers = [150, 80, 60, 40, 30]
 # Create a Pie Chart to represent the percentage of customers using each payment method. Display the percentage contribution of each category and add an appropriate title.
 
-
 import pandas as pd
 import matplotlib.pyplot as plt
 df = pd.DataFrame({'Payment_Method': ['UPI', 'Credit Card', 'Debit Card', 'Cash', 'Net Banking'], 'Customers': [150, 80, 60, 40, 30]})
@@ -19,7 +18,6 @@ Q2:
 # Slip 4 | Q2 (20 Marks)
 # Apply the K-Means Clustering algorithm on the given E-commerce Customer dataset. Read the dataset using Python, inspect and preprocess the data by handling missing values and selecting suitable numerical features. Apply K-Means clustering to segment the customers into different categories and interpret the resulting clusters.
 
-
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
@@ -28,15 +26,15 @@ df = pd.read_csv('Ecommerce Customers.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
 df = df.dropna()
-X = df[['Annual Income (k$)', 'Spending Score (1-100)']]
+X = df[['Time on App', 'Length of Membership']]
 sc = StandardScaler()
 X_scaled = sc.fit_transform(X)
 model = KMeans(n_clusters=3, random_state=1, n_init=10)
 df['Cluster'] = model.fit_predict(X_scaled)
 centers = sc.inverse_transform(model.cluster_centers_)
-plt.scatter(df['Annual Income (k$)'], df['Spending Score (1-100)'], c=df['Cluster'])
+plt.scatter(df['Time on App'], df['Length of Membership'], c=df['Cluster'])
 plt.scatter(centers[:, 0], centers[:, 1], color='red', marker='X', s=200)
 plt.title('E-Commerce Customer Clusters')
-plt.xlabel('Annual Income')
-plt.ylabel('Spending Score')
+plt.xlabel('Time on App')
+plt.ylabel('Length of Membership')
 plt.show()

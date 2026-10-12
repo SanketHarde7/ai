@@ -4,7 +4,6 @@ Q1:
 # Slip 18 | Q1 (10 Marks)
 # Write a Python program to create an employee_data DataFrame with the attributes: Emp_ID, Age, Dept, Years_Experience, and Performance_Rating. Perform data cleaning by handling missing values, remove duplicate records and detecting outliers using the IQR method.
 
-
 import pandas as pd
 df = pd.DataFrame({'Emp_ID': [1, 2, 3, 3, 5, 6, 7, 8], 'Age': [25, None, 32, 32, 28, 45, None, 50], 'Dept': ['IT', 'HR', 'HR', 'HR', 'Sales', 'IT', None, 'Sales'], 'Years_Experience': [2, 5, 7, 7, 3, 10, 8, 45], 'Performance_Rating': [3, 4, 4, 4, 3, 5, 4, 5]})
 print(df.isnull().sum())
@@ -19,8 +18,7 @@ print(df)
 
 Q2:
 # Slip 18 | Q2 (20 Marks)
-# Use Crop Yield dataset to apply Simple Linear Regression for predicting crop yield from rainfall. Handle missing values, split the data into training and testing sets, and evaluate the model using MAE and R² Score. Create a Scatter Plot with a Regression Line to visualize the relationship.
-
+# Use the Crop Yield dataset to apply Simple Linear Regression for predicting crop yield from rainfall. Handle missing values, split the data into training and testing sets, and evaluate the model using MAE and R² Score. Create a Scatter Plot with a Regression Line to visualize the relationship.
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -31,8 +29,8 @@ df = pd.read_csv('crop_yield_data.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
 df = df.dropna()
-X = df[['rainfall']]
-y = df['yield']
+X = df[['rainfall_mm']]
+y = df['crop_yield']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 model = LinearRegression()
 model.fit(X_train, y_train)

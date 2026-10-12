@@ -4,7 +4,6 @@ Q1:
 # Slip 11 | Q1 (10 Marks)
 # An organization has recorded the number of employees working in different departments such as HR, Finance, IT, Sales, and Marketing. Write a Python program to create a bar chart showing the distribution of employees among these departments. Display suitable labels and a title.
 
-
 import pandas as pd
 import matplotlib.pyplot as plt
 df = pd.DataFrame({'Department': ['HR', 'Finance', 'IT', 'Sales', 'Marketing'], 'Employees': [20, 15, 40, 25, 12]})
@@ -18,7 +17,6 @@ Q2:
 # Slip 11 | Q2 (20 Marks)
 # Apply the K-Means Clustering algorithm on the given E-commerce Customer dataset. Read the dataset using Python, inspect and preprocess the data by handling missing values and selecting suitable numerical features. Apply K-Means clustering to segment the customers into different categories and display the clusters.
 
-
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
@@ -27,15 +25,15 @@ df = pd.read_csv('Ecommerce Customers.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
 df = df.dropna()
-X = df[['Annual Income (k$)', 'Spending Score (1-100)']]
+X = df[['Time on App', 'Length of Membership']]
 sc = StandardScaler()
 X_scaled = sc.fit_transform(X)
 model = KMeans(n_clusters=3, random_state=1, n_init=10)
 df['Cluster'] = model.fit_predict(X_scaled)
 centers = sc.inverse_transform(model.cluster_centers_)
-plt.scatter(df['Annual Income (k$)'], df['Spending Score (1-100)'], c=df['Cluster'])
+plt.scatter(df['Time on App'], df['Length of Membership'], c=df['Cluster'])
 plt.scatter(centers[:, 0], centers[:, 1], color='red', marker='X', s=200)
 plt.title('E-Commerce Customer Clusters')
-plt.xlabel('Annual Income')
-plt.ylabel('Spending Score')
+plt.xlabel('Time on App')
+plt.ylabel('Length of Membership')
 plt.show()
