@@ -2,7 +2,8 @@ slip21
 
 Q1:
 # Slip 21 | Q1 (10 Marks)
-# Write a Python program to create a DataFrame using weather.csv containing values of Temperature, Humidity, Rainfall, and Wind Speed. Generate a Heat Map to visualize the correlation between these weather parameters.
+# Create a dataframe using weather.csv containing values of Temperature, Humidity, Rainfall, and Wind Speed. Generate a Heat Map to visualize the correlation between these weather parameters.
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -18,6 +19,7 @@ plt.show()
 Q2:
 # Slip 21 | Q2 (20 Marks)
 # Apply the K-Means Clustering algorithm to the given student dataset using Attendance and Marks as the input attributes. Perform the required data preprocessing, set K = 3, assign the students to the respective clusters, and visualize the clusters and their centroids using a suitable scatter plot.
+
 
 import pandas as pd
 import matplotlib.pyplot as plt

@@ -4,9 +4,10 @@ Q1:
 # Slip 22 | Q1 (10 Marks)
 # Write a Python program to create a DataFrame containing the attributes City, House_Type, House_Area, Number_of_Rooms, and Monthly_Rent. Apply the Normalization technique to the numerical attributes and display the normalized data.
 
+
 import pandas as pd
 from sklearn.preprocessing import Normalizer
-df = pd.DataFrame({'City': ['Pune', 'Mumbai', 'Nashik', 'Loni'], 'House_Type': ['Flat', 'Flat', 'Bungalow', 'Flat'], 'House_Area': [800, 900, 1500, 700], 'Number_of_Rooms': [2, 3, 4, 2], 'Monthly_Rent': [12000, 18000, 25000, 10000]})
+df = pd.DataFrame({'City': ['Pune', 'Mumbai', 'Nashik', 'Loni', 'Pune', 'Mumbai', 'Nashik', 'Loni'], 'House_Type': ['Flat', 'Flat', 'Bungalow', 'Flat', 'Bungalow', 'Flat', 'Flat', 'Bungalow'], 'House_Area': [800, 900, 1500, 700, 1200, 950, 850, 1600], 'Number_of_Rooms': [2, 3, 4, 2, 3, 3, 2, 5], 'Monthly_Rent': [12000, 18000, 25000, 10000, 22000, 19000, 13000, 30000]})
 X = df[['House_Area', 'Number_of_Rooms', 'Monthly_Rent']]
 sc = Normalizer()
 df[['House_Area', 'Number_of_Rooms', 'Monthly_Rent']] = sc.fit_transform(X)
@@ -14,18 +15,23 @@ print(df)
 
 Q2:
 # Slip 22 | Q2 (20 Marks)
-# Generate a DataFrame containing customer information for Netflix and Amazon Prime users. Create a Venn diagram and a Pie chart to show the customers using only Netflix, only Amazon Prime, and both services. Add appropriate labels, colors, and titles to both visualizations.
+# Apply the K-Means Clustering algorithm to a student dataset containing Attendance and Marks. Perform the necessary data preprocessing, use K = 3 to group the students into three clusters, and visualize the resulting clusters along with their cluster centroids using a scatter plot.
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
-from matplotlib_venn import venn2
-df = pd.DataFrame({'Customer_ID': ['C1', 'C2', 'C3', 'C4', 'C5', 'C6'], 'Netflix': [1,1,1,0,0,0], 'Amazon_Prime': [0,0,1,1,1,0]})
-netflix = set(df[df['Netflix'] == 1]['Customer_ID'])
-amazon = set(df[df['Amazon_Prime'] == 1]['Customer_ID'])
-venn2([netflix, amazon], set_labels=('Netflix', 'Amazon Prime'))
-plt.title('Netflix and Amazon Prime Customers')
-plt.show()
-values = [len(netflix - amazon), len(amazon - netflix), len(netflix & amazon)]
-plt.pie(values, labels=['Only Netflix', 'Only Amazon Prime', 'Both'], autopct='%1.1f%%')
-plt.title('Streaming Service Customers')
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+df = pd.DataFrame({'Attendance': [55, 60, 65, 70, 75, 80, 90, 95], 'Marks': [40, 45, 55, 60, 65, 75, 85, 95]})
+X = df[['Attendance', 'Marks']]
+sc = StandardScaler()
+X_scaled = sc.fit_transform(X)
+model = KMeans(n_clusters=3, random_state=1, n_init=10)
+df['Cluster'] = model.fit_predict(X_scaled)
+centers = sc.inverse_transform(model.cluster_centers_)
+plt.scatter(df['Attendance'], df['Marks'], c=df['Cluster'])
+plt.scatter(centers[:, 0], centers[:, 1], color='red', marker='X', s=200)
+plt.title('Student Clusters')
+plt.xlabel('Attendance')
+plt.ylabel('Marks')
 plt.show()
