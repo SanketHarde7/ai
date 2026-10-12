@@ -1,0 +1,32 @@
+slip16
+
+Q1:
+# Slip 16 | Q1 (10 Marks)
+# Create a DataFrame containing student performance data with attributes such as Study Hours, Attendance, Assignment Score, and Exam Score. Calculate the correlation matrix for these attributes and generate a Heat Map to visualize the correlation between them. Display the correlation values, suitable labels, and an appropriate title.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.DataFrame({'Study_Hours': [2, 3, 4, 5, 6], 'Attendance': [60, 65, 75, 80, 95], 'Assignment_Score': [50, 60, 70, 80, 90], 'Exam_Score': [45, 55, 72, 85, 92]})
+print(df.corr(numeric_only=True))
+sns.heatmap(df.corr(numeric_only=True), annot=True)
+plt.title('Student Performance Correlation')
+plt.show()
+
+Q2:
+# Slip 16 | Q2 (20 Marks)
+# Write a Python program to create a DataFrame with the attributes Temperature, Humidity, Wind-Speed, Pressure, and Rainfall. Apply the following data transformation techniques and display the transformed data:
+# a) Min-Max Scaling
+# b) Standardization
+# c) Normalization
+
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, Normalizer
+df = pd.DataFrame({'Temperature': [20, 25, 30, 35], 'Humidity': [40, 50, 60, 70], 'Wind Speed': [5, 10, 15, 20], 'Pressure': [1000, 1010, 1020, 1030], 'Rainfall': [0, 5, 10, 15]})
+X = df[['Temperature', 'Humidity', 'Wind Speed', 'Pressure', 'Rainfall']]
+mm = MinMaxScaler()
+print(pd.DataFrame(mm.fit_transform(X), columns=X.columns))
+sc = StandardScaler()
+print(pd.DataFrame(sc.fit_transform(X), columns=X.columns))
+norm = Normalizer()
+print(pd.DataFrame(norm.fit_transform(X), columns=X.columns))

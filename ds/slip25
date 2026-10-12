@@ -1,0 +1,42 @@
+slip25
+
+Q1:
+# Slip 25 | Q1 (10 Marks)
+# Consider the following dataset representing the number of students enrolled in different courses:
+# courses = ["BCA", "BBA", "B.Com", "B.Sc", "BA"]
+# students = [60, 45, 75, 50, 35]
+# Create a Bar Chart to visualize the number of students enrolled in each course. Use different bar colors, add an appropriate title, and label both axes.
+
+import matplotlib.pyplot as plt
+courses = ['BCA', 'BBA', 'B.Com', 'B.Sc', 'BA']
+students = [60, 45, 75, 50, 35]
+plt.bar(courses, students, color=['red', 'blue', 'green', 'orange', 'purple'])
+plt.title('Students Enrolled in Courses')
+plt.xlabel('Courses')
+plt.ylabel('Number of Students')
+plt.show()
+
+Q2:
+# Slip 25 | Q2 (20 Marks)
+# Create two DataFrames containing information about different mobile phones.
+# DataFrame 1: Brand, Model, Price, RAM
+# DataFrame 2: Model, Storage, Battery_Capacity, Operating_System
+# 
+# Perform the following data transformation techniques:
+# a) Data Integration by combining the two DataFrames using Model
+# b) Label Encoding on the Brand attribute of the merged DataFrame
+# c) One-Hot Encoding on the Operating_System attribute of the merged DataFrame
+# Display the original DataFrames, merged DataFrame, and transformed DataFrame.
+
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+a = pd.DataFrame({'Brand': ['A', 'B', 'C', 'A'], 'Model': ['M1', 'M2', 'M3', 'M4'], 'Price': [10000, 15000, 20000, 12000], 'RAM': [4, 6, 8, 4]})
+b = pd.DataFrame({'Model': ['M1', 'M2', 'M3', 'M4'], 'Storage': [64, 128, 256, 64], 'Battery_Capacity': [4000, 4500, 5000, 4200], 'Operating_System': ['Android', 'iOS', 'Android', 'Android']})
+print(a)
+print(b)
+df = pd.merge(a, b, on='Model')
+print(df)
+le = LabelEncoder()
+df['Brand'] = le.fit_transform(df['Brand'])
+df = pd.get_dummies(df, columns=['Operating_System'])
+print(df)

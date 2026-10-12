@@ -1,0 +1,34 @@
+slip23
+
+Q1:
+# Slip 23 | Q1 (10 Marks)
+# Create a DataFrame containing information about different products with attributes such as Product_name, Price, Rating, and Number_of_Sales. Generate a Dendrogram to identify groups of similar products. Display a suitable title and labels for the Dendrogram.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from scipy.cluster.hierarchy import linkage, dendrogram
+df = pd.DataFrame({'Product_name': ['A', 'B', 'C', 'D', 'E'], 'Price': [100, 120, 300, 320, 150], 'Rating': [4.2, 4.0, 4.8, 4.7, 3.9], 'Number_of_Sales': [50, 45, 80, 75, 30]})
+Z = linkage(df[['Price', 'Rating', 'Number_of_Sales']], method='ward')
+dendrogram(Z, labels=df['Product_name'].tolist())
+plt.title('Product Dendrogram')
+plt.xlabel('Products')
+plt.ylabel('Distance')
+plt.show()
+
+Q2:
+# Slip 23 | Q2 (20 Marks)
+# Write a Python program to create a DataFrame with the attributes Temperature, Humidity, Wind Speed, Pressure, and Rainfall. Apply the following data transformation techniques and display the transformed data:
+# a) Min-Max Scaling
+# b) Standardization
+# c) Normalization
+
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, Normalizer
+df = pd.DataFrame({'Temperature': [20, 25, 30, 35], 'Humidity': [40, 50, 60, 70], 'Wind Speed': [5, 10, 15, 20], 'Pressure': [1000, 1010, 1020, 1030], 'Rainfall': [0, 5, 10, 15]})
+X = df[['Temperature', 'Humidity', 'Wind Speed', 'Pressure', 'Rainfall']]
+mm = MinMaxScaler()
+print(pd.DataFrame(mm.fit_transform(X), columns=X.columns))
+sc = StandardScaler()
+print(pd.DataFrame(sc.fit_transform(X), columns=X.columns))
+norm = Normalizer()
+print(pd.DataFrame(norm.fit_transform(X), columns=X.columns))

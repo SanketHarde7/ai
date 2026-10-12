@@ -1,0 +1,42 @@
+slip4
+
+Q1:
+# Slip 4 | Q1 (10 Marks)
+# A survey was conducted to determine the preferred payment method among customers as shown below:
+# payment_methods = ["UPI", "Credit Card", "Debit Card", "Cash", "Net Banking"]
+# customers = [150, 80, 60, 40, 30]
+# Create a Pie Chart to represent the percentage of customers using each payment method. Display the percentage contribution of each category and add an appropriate title.
+
+import matplotlib.pyplot as plt
+payment_methods = ['UPI', 'Credit Card', 'Debit Card', 'Cash', 'Net Banking']
+customers = [150, 80, 60, 40, 30]
+plt.pie(customers, labels=payment_methods, autopct='%1.1f%%', colors=['red', 'blue', 'green', 'orange', 'purple'])
+plt.title('Preferred Payment Methods')
+plt.show()
+
+Q2:
+# Slip 4 | Q2 (20 Marks)
+# Apply Logistic Regression on an Online Gaming dataset to classify players as Casual or Professional gamers based on features such as daily play time, achievements unlocked, in-game purchases, and gaming level. Evaluate the model using Accuracy, Precision, Recall, F1-Score, and Confusion Matrix.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+df = pd.read_csv('online_gaming_behavior_dataset.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna()
+X = df[['PlayTimeHours', 'AchievementsUnlocked', 'InGamePurchases', 'GameLevel']]
+y = df['PlayerType']
+X = pd.get_dummies(X)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, stratify=y)
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print('Accuracy:', accuracy_score(y_test, y_pred))
+print(classification_report(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))

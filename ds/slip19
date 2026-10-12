@@ -1,0 +1,40 @@
+slip19
+
+Q1:
+# Slip 19 | Q1 (10 Marks)
+# Create a dataframe containing information about different vehicles such as Fuel_Efficiency, Engine_Power, Vehicle_Weight, Engine_Size, and Acceleration. Add 5 records in dataframe, including outlier. Create Box Plots for Fuel Efficiency and Engine Power and identify outliers.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.DataFrame({'Fuel_Efficiency': [25, 26, 27, 28, 150], 'Engine_Power': [100, 110, 120, 130, 500], 'Vehicle_Weight': [1000, 1100, 1200, 1300, 1400], 'Engine_Size': [1.0, 1.2, 1.4, 1.6, 3.0], 'Acceleration': [12, 11, 10, 9, 8]})
+df[['Fuel_Efficiency', 'Engine_Power']].plot(kind='box')
+plt.title('Vehicle Outliers')
+plt.xlabel('Vehicle Attributes')
+plt.ylabel('Values')
+plt.show()
+q1 = df['Fuel_Efficiency'].quantile(0.25)
+q3 = df['Fuel_Efficiency'].quantile(0.75)
+iqr = q3 - q1
+print(df[(df['Fuel_Efficiency'] < q1 - 1.5 * iqr) | (df['Fuel_Efficiency'] > q3 + 1.5 * iqr)])
+q1 = df['Engine_Power'].quantile(0.25)
+q3 = df['Engine_Power'].quantile(0.75)
+iqr = q3 - q1
+print(df[(df['Engine_Power'] < q1 - 1.5 * iqr) | (df['Engine_Power'] > q3 + 1.5 * iqr)])
+
+Q2:
+# Slip 19 | Q2 (20 Marks)
+# Write a Python program to create a DataFrame with the attributes Temperature, Humidity, Wind Speed, Pressure, and Rainfall. Apply the following data transformation techniques and display the transformed data:
+# a) Min-Max Scaling
+# b) Standardization
+# c) Normalization
+
+import pandas as pd
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, Normalizer
+df = pd.DataFrame({'Temperature': [20, 25, 30, 35], 'Humidity': [40, 50, 60, 70], 'Wind Speed': [5, 10, 15, 20], 'Pressure': [1000, 1010, 1020, 1030], 'Rainfall': [0, 5, 10, 15]})
+X = df[['Temperature', 'Humidity', 'Wind Speed', 'Pressure', 'Rainfall']]
+mm = MinMaxScaler()
+print(pd.DataFrame(mm.fit_transform(X), columns=X.columns))
+sc = StandardScaler()
+print(pd.DataFrame(sc.fit_transform(X), columns=X.columns))
+norm = Normalizer()
+print(pd.DataFrame(norm.fit_transform(X), columns=X.columns))

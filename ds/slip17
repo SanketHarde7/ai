@@ -1,0 +1,34 @@
+slip17
+
+Q1:
+# Slip 17 | Q1 (10 Marks)
+# Write a Python program to create two DataFrames, student_details and academic_records, containing suitable student-related attributes. Perform data integration by combining the two DataFrames using a common attribute such as Student_ID. Display the individual DataFrames and the integrated DataFrame.
+
+import pandas as pd
+student_details = pd.DataFrame({'Student_ID': [1, 2, 3], 'Name': ['Asha', 'Ravi', 'Neha']})
+academic_records = pd.DataFrame({'Student_ID': [1, 2, 3], 'Marks': [80, 75, 90], 'Grade': ['A', 'B', 'A']})
+print(student_details)
+print(academic_records)
+df = pd.merge(student_details, academic_records, on='Student_ID')
+print(df)
+
+Q2:
+# Slip 17 | Q2 (20 Marks)
+# Create a DataFrame containing information about different cities with the attributes City, Area (sq. km), Average Temperature (°C), Rainfall (mm), and Population Density. Generate a Treemap to visualize the population density of each city and create a 3D Scatter Plot using Area, Average Temperature, and Rainfall. Add suitable labels, colors, and titles to both visualizations.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import squarify
+df = pd.DataFrame({'City': ['Pune', 'Mumbai', 'Nashik', 'Delhi', 'Jaipur'], 'Area': [300, 600, 260, 1500, 450], 'Average_Temperature': [28, 30, 27, 32, 31], 'Rainfall': [700, 2200, 800, 600, 650], 'Population_Density': [8000, 20000, 5000, 12000, 7000]})
+squarify.plot(sizes=df['Population_Density'], label=df['City'])
+plt.title('City Population Density Treemap')
+plt.axis('off')
+plt.show()
+fig = plt.figure()
+ax = plt.axes(projection='3d')
+ax.scatter(df['Area'], df['Average_Temperature'], df['Rainfall'])
+ax.set_title('City Area, Temperature and Rainfall')
+ax.set_xlabel('Area (sq. km)')
+ax.set_ylabel('Average Temperature')
+ax.set_zlabel('Rainfall')
+plt.show()

@@ -1,0 +1,44 @@
+slip7
+
+Q1:
+# Slip 7 | Q1 (10 Marks)
+# Consider the following dataset representing the number of students enrolled in different courses:
+# courses = ["BCA", "BBA", "B.Com", "B.Sc", "BA"]
+# students = [60, 45, 75, 50, 35]
+# Create a Bar Chart to visualize the number of students enrolled in each course. Use different bar colors, add an appropriate title, and label both axes.
+
+import matplotlib.pyplot as plt
+courses = ['BCA', 'BBA', 'B.Com', 'B.Sc', 'BA']
+students = [60, 45, 75, 50, 35]
+plt.bar(courses, students, color=['red', 'blue', 'green', 'orange', 'purple'])
+plt.title('Students Enrolled in Courses')
+plt.xlabel('Courses')
+plt.ylabel('Number of Students')
+plt.show()
+
+Q2:
+# Slip 7 | Q2 (20 Marks)
+# Implement a KNN classifier on the given Student dataset. Preprocess the data and classify students into different performance categories. Evaluate the model using Accuracy and Confusion Matrix.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+df = pd.read_csv('student_dataset_v2.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna()
+X = df.drop('Performance_Category', axis=1)
+X = X.drop(columns=['Student_ID'], errors='ignore')
+X = pd.get_dummies(X)
+y = df['Performance_Category']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, stratify=y)
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print('Accuracy:', accuracy_score(y_test, y_pred))
+print(confusion_matrix(y_test, y_pred))

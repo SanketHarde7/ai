@@ -1,0 +1,49 @@
+slip3
+
+Q1:
+# Slip 3 | Q1 (10 Marks)
+# Create a dataframe containing information about different vehicles such as Fuel_Efficiency, Engine_Power, Vehicle_Weight, Engine_Size, and Acceleration. Add 5 records in dataframe, including outlier. Create Box Plots for Fuel Efficiency and Engine Power and identify outliers.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.DataFrame({'Fuel_Efficiency': [25, 26, 27, 28, 150], 'Engine_Power': [100, 110, 120, 130, 500], 'Vehicle_Weight': [1000, 1100, 1200, 1300, 1400], 'Engine_Size': [1.0, 1.2, 1.4, 1.6, 3.0], 'Acceleration': [12, 11, 10, 9, 8]})
+df[['Fuel_Efficiency', 'Engine_Power']].plot(kind='box')
+plt.title('Vehicle Outliers')
+plt.xlabel('Vehicle Attributes')
+plt.ylabel('Values')
+plt.show()
+q1 = df['Fuel_Efficiency'].quantile(0.25)
+q3 = df['Fuel_Efficiency'].quantile(0.75)
+iqr = q3 - q1
+print(df[(df['Fuel_Efficiency'] < q1 - 1.5 * iqr) | (df['Fuel_Efficiency'] > q3 + 1.5 * iqr)])
+q1 = df['Engine_Power'].quantile(0.25)
+q3 = df['Engine_Power'].quantile(0.75)
+iqr = q3 - q1
+print(df[(df['Engine_Power'] < q1 - 1.5 * iqr) | (df['Engine_Power'] > q3 + 1.5 * iqr)])
+
+Q2:
+# Slip 3 | Q2 (20 Marks)
+# Consider the Salary Dataset. Write a Python program to read the dataset and display its information. Preprocess the data if required and split it into training and testing sets. Apply Simple Linear Regression to predict salary based on years of experience. Plot the regression line and evaluate the model using appropriate metrics such as Mean Squared Error.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+df = pd.read_csv('Salary_Data.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna()
+X = df[['YearsExperience']]
+y = df['Salary']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print('MSE:', mean_squared_error(y_test, y_pred))
+plt.scatter(X, y)
+plt.plot(X, model.predict(X), color='red')
+plt.title('Salary Prediction')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.show()

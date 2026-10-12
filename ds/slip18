@@ -1,0 +1,49 @@
+slip18
+
+Q1:
+# Slip 18 | Q1 (10 Marks)
+# Consider the World Cities dataset containing attributes - city, country, latitude, longitude, and population information. Perform the following tasks:
+# a. Create a Geospatial Visualization showing the locations of cities on a world map, using marker size to represent population.
+# b. Create a Treemap to visualize the population distribution of cities.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import squarify
+df = pd.read_csv('worldcities.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna(subset=['lat', 'lng', 'population'])
+df = df.nlargest(20, 'population')
+plt.scatter(df['lng'], df['lat'], s=df['population'] / 100000, alpha=0.5)
+plt.title('World Cities by Population')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.show()
+squarify.plot(sizes=df['population'], label=df['city'])
+plt.title('City Population Treemap')
+plt.axis('off')
+plt.show()
+
+Q2:
+# Slip 18 | Q2 (20 Marks)
+# Consider the World Cities dataset containing attributes - city, country, latitude, longitude, and population information. Perform the following tasks:
+# a. Create a Geospatial Visualization showing the locations of cities on a world map, using marker size to represent population.
+# b. Create a Treemap to visualize the population distribution of cities.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import squarify
+df = pd.read_csv('worldcities.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna(subset=['lat', 'lng', 'population'])
+df = df.nlargest(20, 'population')
+plt.scatter(df['lng'], df['lat'], s=df['population'] / 100000, alpha=0.5)
+plt.title('World Cities by Population')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.show()
+squarify.plot(sizes=df['population'], label=df['city'])
+plt.title('City Population Treemap')
+plt.axis('off')
+plt.show()
