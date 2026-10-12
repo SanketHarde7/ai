@@ -7,10 +7,10 @@ Q1:
 # students = [60, 45, 75, 50, 35]
 # Create a Bar Chart to visualize the number of students enrolled in each course. Use different bar colors, add an appropriate title, and label both axes.
 
+import pandas as pd
 import matplotlib.pyplot as plt
-courses = ['BCA', 'BBA', 'B.Com', 'B.Sc', 'BA']
-students = [60, 45, 75, 50, 35]
-plt.bar(courses, students, color=['red', 'blue', 'green', 'orange', 'purple'])
+df = pd.DataFrame({'Course': ['BCA', 'BBA', 'B.Com', 'B.Sc', 'BA'], 'Students': [60, 45, 75, 50, 35]})
+plt.bar(df['Course'], df['Students'], color=['red', 'blue', 'green', 'orange', 'purple'])
 plt.title('Students Enrolled in Courses')
 plt.xlabel('Courses')
 plt.ylabel('Number of Students')
@@ -21,7 +21,7 @@ Q2:
 # Create two DataFrames containing information about different mobile phones.
 # DataFrame 1: Brand, Model, Price, RAM
 # DataFrame 2: Model, Storage, Battery_Capacity, Operating_System
-# 
+#
 # Perform the following data transformation techniques:
 # a) Data Integration by combining the two DataFrames using Model
 # b) Label Encoding on the Brand attribute of the merged DataFrame
@@ -30,8 +30,8 @@ Q2:
 
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-a = pd.DataFrame({'Brand': ['A', 'B', 'C', 'A'], 'Model': ['M1', 'M2', 'M3', 'M4'], 'Price': [10000, 15000, 20000, 12000], 'RAM': [4, 6, 8, 4]})
-b = pd.DataFrame({'Model': ['M1', 'M2', 'M3', 'M4'], 'Storage': [64, 128, 256, 64], 'Battery_Capacity': [4000, 4500, 5000, 4200], 'Operating_System': ['Android', 'iOS', 'Android', 'Android']})
+a = pd.DataFrame({'Brand': ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B'], 'Model': ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8'], 'Price': [10000, 15000, 20000, 12000, 18000, 22000, 14000, 19000], 'RAM': [4, 6, 8, 4, 8, 12, 6, 8]})
+b = pd.DataFrame({'Model': ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8'], 'Storage': [64, 128, 256, 64, 128, 256, 128, 512], 'Battery_Capacity': [4000, 4500, 5000, 4200, 4800, 5100, 4300, 5200], 'Operating_System': ['Android', 'iOS', 'Android', 'Android', 'iOS', 'Android', 'Android', 'iOS']})
 print(a)
 print(b)
 df = pd.merge(a, b, on='Model')
