@@ -25,7 +25,7 @@ Q2:
 import pandas as pd
 from mlxtend.preprocessing import TransactionEncoder
 from mlxtend.frequent_patterns import apriori, association_rules
-transactions = [['Basmati Rice', 'Toor Dal', 'Turmeric Powder', 'Cooking Oil'], ['Atta', 'Sugar', 'Tea', 'Milk'], ['Rice', 'Moong Dal', 'Salt', 'Cooking Oil'], ['Wheat Flour', 'Chickpeas', 'Turmeric Powder', 'Cumin Seeds'], ['Poha', 'Peanuts', 'Onions', 'Cooking Oil'], ['Basmati Rice', 'Paneer', 'Garam Masala', 'Tomatoes'], ['Atta', 'Potatoes', 'Onions', 'Cooking Oil'], ['Rice', 'Moong Dal', 'Salt', 'Cooking Oil']]
+transactions = [['Basmati Rice', 'Toor Dal', 'Turmeric Powder', 'Cooking Oil'], ['Atta', 'Sugar', 'Tea', 'Milk'], ['Rice', 'Moong Dal', 'Salt', 'Cooking Oil'], ['Wheat Flour', 'Chickpeas', 'Turmeric Powder', 'Cumin Seeds'], ['Poha', 'Peanuts', 'Onions', 'Cooking Oil'], ['Basmati Rice', 'Paneer', 'Garam Masala', 'Tomatoes'], ['Atta', 'Potatoes', 'Onions', 'Cooking Oil'], ['Atta', 'Potatoes', 'Onions', 'Cooking Oil'], ['Poha', 'Peanuts', 'Onions', 'Cooking Oil']]
 te = TransactionEncoder()
 te_array = te.fit(transactions).transform(transactions)
 df = pd.DataFrame(te_array, columns=te.columns_)
@@ -33,11 +33,11 @@ print(df.isnull().sum())
 df = df.fillna(False)
 itemsets = apriori(df, min_support=0.3, use_colnames=True)
 print(itemsets)
-if len(itemsets['itemsets'].apply(len)[itemsets['itemsets'].apply(len) > 1]) > 0:
+if itemsets['itemsets'].apply(len).max() > 1:
     rules = association_rules(itemsets, metric='confidence', min_threshold=0.5)
     print(rules)
 itemsets = apriori(df, min_support=0.4, use_colnames=True)
 print(itemsets)
-if len(itemsets['itemsets'].apply(len)[itemsets['itemsets'].apply(len) > 1]) > 0:
+if itemsets['itemsets'].apply(len).max() > 1:
     rules = association_rules(itemsets, metric='confidence', min_threshold=0.5)
     print(rules)

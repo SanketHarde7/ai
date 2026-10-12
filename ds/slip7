@@ -7,7 +7,6 @@ Q1:
 # students = [60, 45, 75, 50, 35]
 # Create a Bar Chart to visualize the number of students enrolled in each course. Use different bar colors, add an appropriate title, and label both axes.
 
-
 import pandas as pd
 import matplotlib.pyplot as plt
 df = pd.DataFrame({'Course': ['BCA', 'BBA', 'B.Com', 'B.Sc', 'BA'], 'Students': [60, 45, 75, 50, 35]})
@@ -21,7 +20,6 @@ Q2:
 # Slip 7 | Q2 (20 Marks)
 # Implement a KNN classifier on the given Student dataset. Preprocess the data and classify students into different performance categories. Evaluate the model using Accuracy and Confusion Matrix.
 
-
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -31,10 +29,9 @@ df = pd.read_csv('student_dataset_v2.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
 df = df.dropna()
-X = df.iloc[:, :-1]
-X = X.drop(columns=['Student_ID'], errors='ignore')
-X = pd.get_dummies(X)
-y = df.iloc[:, -1]
+df['Performance_Category'] = pd.cut(df['Marks'], bins=[0, 40, 60, 75, 100], labels=['Poor', 'Average', 'Good', 'Excellent'], include_lowest=True)
+X = df[['Study_Hours', 'Attendance']]
+y = df['Performance_Category']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, stratify=y)
 sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
