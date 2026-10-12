@@ -29,6 +29,7 @@ df = pd.read_csv('student_dataset_v2.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
 df = df.dropna()
+df = df[(df['Marks'] >= 0) & (df['Marks'] <= 100)]
 df['Performance_Category'] = pd.cut(df['Marks'], bins=[0, 40, 60, 75, 100], labels=['Poor', 'Average', 'Good', 'Excellent'], include_lowest=True)
 X = df[['Study_Hours', 'Attendance']]
 y = df['Performance_Category']
