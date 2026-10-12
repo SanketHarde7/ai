@@ -1,0 +1,41 @@
+slip21
+
+Q1:
+# Slip 21 | Q1 (10 Marks)
+# Write a Python program to create a DataFrame using weather.csv containing values of Temperature, Humidity, Rainfall, and Wind Speed. Generate a Heat Map to visualize the correlation between these weather parameters.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df = pd.read_csv('weather.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna()
+sns.heatmap(df[['Temperature', 'Humidity', 'Rainfall', 'Wind Speed']].corr(numeric_only=True), annot=True)
+plt.title('Weather Parameter Correlation')
+plt.show()
+
+Q2:
+# Slip 21 | Q2 (20 Marks)
+# Apply the K-Means Clustering algorithm to the given student dataset using Attendance and Marks as the input attributes. Perform the required data preprocessing, set K = 3, assign the students to the respective clusters, and visualize the clusters and their centroids using a suitable scatter plot.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+df = pd.read_csv('student.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna()
+X = df[['Attendance', 'Marks']]
+sc = StandardScaler()
+X_scaled = sc.fit_transform(X)
+model = KMeans(n_clusters=3, random_state=1, n_init=10)
+df['Cluster'] = model.fit_predict(X_scaled)
+centers = sc.inverse_transform(model.cluster_centers_)
+plt.scatter(df['Attendance'], df['Marks'], c=df['Cluster'])
+plt.scatter(centers[:, 0], centers[:, 1], color='red', marker='X', s=200)
+plt.title('Student Clusters')
+plt.xlabel('Attendance')
+plt.ylabel('Marks')
+plt.show()

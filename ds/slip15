@@ -1,0 +1,41 @@
+slip15
+
+Q1:
+# Slip 15 | Q1 (10 Marks)
+# Write a Python program to create an age_records DataFrame containing the attributes Person_ID and Age for suitable sample records. Perform Data Discretization on the Age attribute using Equal Frequency Binning. Display the original and discretized data.
+
+import pandas as pd
+df = pd.DataFrame({'Person_ID': [1, 2, 3, 4, 5, 6], 'Age': [18, 22, 25, 31, 40, 55]})
+print(df)
+df['Age_Group'] = pd.qcut(df['Age'], q=3, labels=['Low', 'Medium', 'High'])
+print(df)
+
+Q2:
+# Slip 15 | Q2 (20 Marks)
+# Write a Python program to perform market basket analysis on the Groceries dataset using the Apriori algorithm. Read and explore the dataset, preprocess the data by handling missing values, convert categorical transaction data into a suitable numeric format, and generate frequent itemsets and association rules. Repeat the analysis using minimum support values 0.3 and 0.4.
+# S.No. Items Purchased
+# 1 Basmati Rice, Toor Dal, Turmeric Powder, Cooking Oil
+# 2 Atta, Sugar, Tea, Milk
+# 3 Rice, Moong Dal, Salt, Cooking Oil
+# 4 Wheat Flour, Chickpeas, Turmeric Powder, Cumin Seeds
+# 5 Poha, Peanuts, Onions, Cooking Oil
+# 6 Basmati Rice, Paneer, Garam Masala, Tomatoes
+# 7 Atta, Potatoes, Onions, Cooking Oil
+
+import pandas as pd
+from mlxtend.preprocessing import TransactionEncoder
+from mlxtend.frequent_patterns import apriori, association_rules
+transactions = [['Basmati Rice', 'Toor Dal', 'Turmeric Powder', 'Cooking Oil'], ['Atta', 'Sugar', 'Tea', 'Milk'], ['Rice', 'Moong Dal', 'Salt', 'Cooking Oil'], ['Wheat Flour', 'Chickpeas', 'Turmeric Powder', 'Cumin Seeds'], ['Poha', 'Peanuts', 'Onions', 'Cooking Oil'], ['Basmati Rice', 'Paneer', 'Garam Masala', 'Tomatoes'], ['Atta', 'Potatoes', 'Onions', 'Cooking Oil']]
+te = TransactionEncoder()
+te_array = te.fit(transactions).transform(transactions)
+df = pd.DataFrame(te_array, columns=te.columns_)
+print(df.isnull().sum())
+df = df.fillna(False)
+itemsets = apriori(df, min_support=0.3, use_colnames=True)
+print(itemsets)
+rules = association_rules(itemsets, metric='confidence', min_threshold=0.5)
+print(rules)
+itemsets = apriori(df, min_support=0.4, use_colnames=True)
+print(itemsets)
+rules = association_rules(itemsets, metric='confidence', min_threshold=0.5)
+print(rules)

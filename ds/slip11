@@ -1,0 +1,41 @@
+slip11
+
+Q1:
+# Slip 11 | Q1 (10 Marks)
+# An organization has recorded the number of employees working in different departments such as HR, Finance, IT, Sales, and Marketing. Write a Python program to create a bar chart showing the distribution of employees among these departments. Display suitable labels and a title.
+
+import matplotlib.pyplot as plt
+departments = ['HR', 'Finance', 'IT', 'Sales', 'Marketing']
+employees = [20, 15, 40, 25, 12]
+plt.bar(departments, employees, color=['red', 'blue', 'green', 'orange', 'purple'])
+plt.title('Employees by Department')
+plt.xlabel('Department')
+plt.ylabel('Number of Employees')
+plt.show()
+
+Q2:
+# Slip 11 | Q2 (20 Marks)
+# Apply Logistic Regression to classify smartphones into different price categories using the given smartphone dataset. Preprocess the data appropriately and assess the model using Accuracy, F1-Score, and Confusion Matrix.
+
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, f1_score, confusion_matrix
+df = pd.read_csv('train.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna()
+X = df.drop(['price_range', 'id'], axis=1, errors='ignore')
+X = pd.get_dummies(X)
+y = df['price_range']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, stratify=y)
+sc = StandardScaler()
+X_train = sc.fit_transform(X_train)
+X_test = sc.transform(X_test)
+model = LogisticRegression(max_iter=1000)
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print('Accuracy:', accuracy_score(y_test, y_pred))
+print('F1:', f1_score(y_test, y_pred, average='weighted'))
+print(confusion_matrix(y_test, y_pred))

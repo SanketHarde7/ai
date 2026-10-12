@@ -1,0 +1,41 @@
+slip18
+
+Q1:
+# Slip 18 | Q1 (10 Marks)
+# Write a Python program to create an employee_data DataFrame with the attributes: Emp_ID, Age, Dept, Years_Experience, and Performance_Rating. Perform data cleaning by handling missing values, remove duplicate records and detecting outliers using the IQR method.
+
+import pandas as pd
+df = pd.DataFrame({'Emp_ID': [1, 2, 2, 4, 5], 'Age': [25, None, None, 40, 50], 'Dept': ['IT', 'HR', 'HR', 'Sales', 'IT'], 'Years_Experience': [2, 5, 5, 8, 50], 'Performance_Rating': [3, 4, 4, 5, 5]})
+print(df.isnull().sum())
+df['Age'] = df['Age'].fillna(df['Age'].median())
+df['Dept'] = df['Dept'].fillna(df['Dept'].mode()[0])
+df = df.drop_duplicates()
+q1 = df['Years_Experience'].quantile(0.25)
+q3 = df['Years_Experience'].quantile(0.75)
+iqr = q3 - q1
+print(df[(df['Years_Experience'] < q1 - 1.5 * iqr) | (df['Years_Experience'] > q3 + 1.5 * iqr)])
+print(df)
+
+Q2:
+# Slip 18 | Q2 (20 Marks)
+# Consider the World Cities dataset containing attributes - city, country, latitude, longitude, and population information. Perform the following tasks:
+# a. Create a Geospatial Visualization showing the locations of cities on a world map, using marker size to represent population.
+# b. Create a Treemap to visualize the population distribution of cities.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import squarify
+df = pd.read_csv('worldcities.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna(subset=['lat', 'lng', 'population'])
+df = df.nlargest(20, 'population')
+plt.scatter(df['lng'], df['lat'], s=df['population'] / 100000, alpha=0.5)
+plt.title('World Cities by Population')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.show()
+squarify.plot(sizes=df['population'], label=df['city'])
+plt.title('City Population Treemap')
+plt.axis('off')
+plt.show()

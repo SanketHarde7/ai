@@ -1,0 +1,35 @@
+slip24
+
+Q1:
+# Slip 24 | Q1 (10 Marks)
+# Write a Python program to create a book_records DataFrame containing the attributes Book_ID and Book_Price for suitable sample records. Perform Data Discretization on the Book_Price attribute using Equal Width Binning. Display the original and discretized data.
+
+import pandas as pd
+df = pd.DataFrame({'Book_ID': [1, 2, 3, 4, 5], 'Book_Price': [100, 250, 400, 600, 900]})
+print(df)
+df['Price_Group'] = pd.cut(df['Book_Price'], bins=3, labels=['Low', 'Medium', 'High'])
+print(df)
+
+Q2:
+# Slip 24 | Q2 (20 Marks)
+# Consider the World Cities dataset containing attributes city, country, latitude, longitude, and population information. Perform the following visualization tasks:
+# a. Create a Geospatial Visualization showing the locations of cities on a world map, using marker size to represent population.
+# b. Create a Treemap to visualize the population distribution of cities.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import squarify
+df = pd.read_csv('worldcities.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna(subset=['lat', 'lng', 'population'])
+df = df.nlargest(20, 'population')
+plt.scatter(df['lng'], df['lat'], s=df['population'] / 100000, alpha=0.5)
+plt.title('World Cities by Population')
+plt.xlabel('Longitude')
+plt.ylabel('Latitude')
+plt.show()
+squarify.plot(sizes=df['population'], label=df['city'])
+plt.title('City Population Treemap')
+plt.axis('off')
+plt.show()

@@ -1,0 +1,41 @@
+slip6
+
+Q1:
+# Slip 6 | Q1 (10 Marks)
+# Create a DataFrame containing the car model, engine size (in litres), and fuel efficiency (in km/L) for the given cars. Create a scatter plot to visualize the relationship between engine size and fuel efficiency. Add an appropriate title, label both axes, and use different colors for the data points.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.DataFrame({'Car_Model': ['A', 'B', 'C', 'D', 'E'], 'Engine_Size': [1.0, 1.2, 1.5, 2.0, 2.5], 'Fuel_Efficiency': [22, 20, 18, 15, 12]})
+plt.scatter(df['Engine_Size'], df['Fuel_Efficiency'], c=['red', 'blue', 'green', 'orange', 'purple'])
+plt.title('Engine Size vs Fuel Efficiency')
+plt.xlabel('Engine Size (litres)')
+plt.ylabel('Fuel Efficiency (km/L)')
+plt.show()
+
+Q2:
+# Slip 6 | Q2 (20 Marks)
+# Use the Sports Performance dataset to develop a Simple Linear Regression model to predict Performance Score based on Training Hours Per Week. Evaluate the model using the R² score and plot a scatter graph with the regression line to visualize the relationship between training hours and performance score.
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+df = pd.read_csv('collegiate_athlete_injury_dataset.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna()
+X = df[['Training Hours Per Week']]
+y = df['Performance Score']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print('R2:', r2_score(y_test, y_pred))
+plt.scatter(X, y)
+plt.plot(X, model.predict(X), color='red')
+plt.title('Training Hours vs Performance Score')
+plt.xlabel('Training Hours Per Week')
+plt.ylabel('Performance Score')
+plt.show()
