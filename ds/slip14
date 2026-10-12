@@ -2,14 +2,15 @@ slip14
 
 Q1:
 # Slip 14 | Q1 (10 Marks)
-# Create a dataframe containing information about different products such as Price, Rating, and Number of Sales. Generate a Dendrogram to group similar products based on their characteristics.
+# Create a DataFrame containing information about different products with attributes such as Product_name, Price, Rating, and Number_of_Sales. Generate a Dendrogram to identify groups of similar products. Display a suitable title and labels for the Dendrogram.
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, dendrogram
-df = pd.DataFrame({'Product': ['A', 'B', 'C', 'D', 'E'], 'Price': [100, 120, 300, 320, 150], 'Rating': [4.2, 4.0, 4.8, 4.7, 3.9], 'Number_of_Sales': [50, 45, 80, 75, 30]})
+df = pd.DataFrame({'Product_name': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'], 'Price': [100, 120, 130, 300, 320, 310, 150, 160], 'Rating': [4.2, 4.0, 4.1, 4.8, 4.7, 4.6, 3.9, 4.0], 'Number_of_Sales': [50, 45, 48, 80, 75, 78, 30, 35]})
 Z = linkage(df[['Price', 'Rating', 'Number_of_Sales']], method='ward')
-dendrogram(Z, labels=df['Product'].tolist())
+dendrogram(Z, labels=df['Product_name'].tolist())
 plt.title('Product Dendrogram')
 plt.xlabel('Products')
 plt.ylabel('Distance')
@@ -17,36 +18,27 @@ plt.show()
 
 Q2:
 # Slip 14 | Q2 (20 Marks)
-# Using the Car Price Prediction dataset, apply Polynomial Regression to predict the Selling Price based on Vehicle Age, Present Price, and Kilometers Driven. Evaluate the model using the R² Score and visualize the actual data points along with the fitted polynomial curve.
+# Create two DataFrames containing information about different mobile phones.
+# DataFrame 1: Brand, Model, Price, RAM
+# DataFrame 2: Model, Storage, Battery_Capacity, Operating_System
+# 
+# Perform the following data transformation techniques:
+# a) Data Integration by combining the two DataFrames using Model
+# b) Label Encoding on the Brand attribute of the merged DataFrame
+# c) One-Hot Encoding on the Operating_System attribute of the merged DataFrame
+# 
+# Display the original DataFrames, merged DataFrame, and transformed DataFrame.
+
 
 import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import PolynomialFeatures
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
-df = pd.read_csv('car data.csv')
-# check columns with print(df.columns)
-print(df.isnull().sum())
-df = df.dropna()
-df['Vehicle_Age'] = pd.Timestamp.today().year - df['Year']
-X = df[['Vehicle_Age', 'Present_Price', 'Kms_Driven']]
-y = df['Selling_Price']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
-poly = PolynomialFeatures(degree=2)
-X_train_poly = poly.fit_transform(X_train)
-X_test_poly = poly.transform(X_test)
-model = LinearRegression()
-model.fit(X_train_poly, y_train)
-y_pred = model.predict(X_test_poly)
-print('R2:', r2_score(y_test, y_pred))
-plot_df = X_test.copy()
-plot_df['Actual'] = y_test
-plot_df['Predicted'] = y_pred
-plot_df = plot_df.sort_values('Present_Price')
-plt.scatter(plot_df['Present_Price'], plot_df['Actual'])
-plt.plot(plot_df['Present_Price'], plot_df['Predicted'], color='red')
-plt.title('Car Price Polynomial Regression')
-plt.xlabel('Present Price')
-plt.ylabel('Selling Price')
-plt.show()
+from sklearn.preprocessing import LabelEncoder
+a = pd.DataFrame({'Brand': ['A', 'B', 'C', 'A', 'B', 'C', 'A', 'B'], 'Model': ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8'], 'Price': [10000, 15000, 20000, 12000, 18000, 22000, 14000, 19000], 'RAM': [4, 6, 8, 4, 8, 12, 6, 8]})
+b = pd.DataFrame({'Model': ['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8'], 'Storage': [64, 128, 256, 64, 128, 256, 128, 512], 'Battery_Capacity': [4000, 4500, 5000, 4200, 4800, 5100, 4300, 5200], 'Operating_System': ['Android', 'iOS', 'Android', 'Android', 'iOS', 'Android', 'Android', 'iOS']})
+print(a)
+print(b)
+df = pd.merge(a, b, on='Model')
+print(df)
+le = LabelEncoder()
+df['Brand'] = le.fit_transform(df['Brand'])
+df = pd.get_dummies(df, columns=['Operating_System'])
+print(df)

@@ -4,6 +4,7 @@ Q1:
 # Slip 13 | Q1 (10 Marks)
 # A retail store has recorded the daily sales for two months. Create a dataframe using sales.csv file and generate a Box Plot to identify any outliers. Customize the graph with title and labels.
 
+
 import pandas as pd
 import matplotlib.pyplot as plt
 df = pd.read_csv('sales.csv')
@@ -18,6 +19,7 @@ Q2:
 # Slip 13 | Q2 (20 Marks)
 # Implement the K-Nearest Neighbors (KNN) algorithm to classify the Wine dataset. Perform the required data preprocessing, model training, and testing, and evaluate the model performance using Accuracy, Precision, Recall, and F1-Score.
 
+
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -27,8 +29,9 @@ df = pd.read_csv('Wine.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
 df = df.dropna()
-X = pd.get_dummies(df.drop('Wine', axis=1))
-y = df['Wine']
+X = df.iloc[:, :-1]
+X = pd.get_dummies(X)
+y = df.iloc[:, -1]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1, stratify=y)
 sc = StandardScaler()
 X_train = sc.fit_transform(X_train)
