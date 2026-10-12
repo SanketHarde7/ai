@@ -7,16 +7,18 @@ Q1:
 # employees = [220, 60, 70, 80, 40]
 # Create a Pie Chart to represent the percentage of employees using each mode of transportation. Display the percentage contribution of each category. Give appropriate labels and colors.
 
+
+import pandas as pd
 import matplotlib.pyplot as plt
-transport = ['Train', 'Bicycle', 'Bike', 'Car', 'Bus']
-employees = [220, 60, 70, 80, 40]
-plt.pie(employees, labels=transport, autopct='%1.1f%%', colors=['red', 'blue', 'green', 'orange', 'purple'])
+df = pd.DataFrame({'Transport': ['Train', 'Bicycle', 'Bike', 'Car', 'Bus'], 'Employees': [220, 60, 70, 80, 40]})
+plt.pie(df['Employees'], labels=df['Transport'], autopct='%1.1f%%', colors=['red', 'blue', 'green', 'orange', 'purple'])
 plt.title('Preferred Transportation')
 plt.show()
 
 Q2:
 # Slip 10 | Q2 (20 Marks)
 # Using the given housing dataset, develop a Random Forest Regression model to predict house prices based on the available property attributes. Perform the necessary data preprocessing, train and test the model, and evaluate its predictive performance using Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), and R² Score.
+
 
 import pandas as pd
 from sklearn.model_selection import train_test_split

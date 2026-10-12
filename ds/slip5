@@ -4,9 +4,10 @@ Q1:
 # Slip 5 | Q1 (10 Marks)
 # Write a Python program to create a customer_DataFrame with suitable attributes such as Customer_ID, Gender, City, and Membership_Type. Perform label encoding technique on appropriate categorical attributes. Display the DataFrame before and after encoding.
 
+
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-df = pd.DataFrame({'Customer_ID': [1, 2, 3, 4], 'Gender': ['Male', 'Female', 'Male', 'Female'], 'City': ['Pune', 'Mumbai', 'Nashik', 'Pune'], 'Membership_Type': ['Gold', 'Silver', 'Gold', 'Bronze']})
+df = pd.DataFrame({'Customer_ID': [1, 2, 3, 4, 5, 6, 7, 8], 'Gender': ['Male', 'Female', 'Male', 'Female', 'Male', 'Female', 'Male', 'Female'], 'City': ['Pune', 'Mumbai', 'Nashik', 'Pune', 'Loni', 'Mumbai', 'Pune', 'Nashik'], 'Membership_Type': ['Gold', 'Silver', 'Gold', 'Bronze', 'Silver', 'Gold', 'Bronze', 'Silver']})
 print(df)
 le = LabelEncoder()
 df['Gender'] = le.fit_transform(df['Gender'])
@@ -18,16 +19,17 @@ Q2:
 # Slip 5 | Q2 (20 Marks)
 # Generate a DataFrame containing customer information for Netflix and Amazon Prime users. Create a Venn diagram and a Pie chart to show the customers using only Netflix, only Amazon Prime, and both services. Add appropriate labels, colors, and titles to both visualizations.
 
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn2
-df = pd.DataFrame({'Customer_ID': ['C1', 'C2', 'C3', 'C4', 'C5', 'C6'], 'Netflix': [1,1,1,0,0,0], 'Amazon_Prime': [0,0,1,1,1,0]})
+df = pd.DataFrame({'Customer_ID': ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8'], 'Netflix': [1, 1, 1, 0, 0, 1, 0, 0], 'Amazon_Prime': [0, 0, 1, 1, 1, 0, 1, 0]})
 netflix = set(df[df['Netflix'] == 1]['Customer_ID'])
 amazon = set(df[df['Amazon_Prime'] == 1]['Customer_ID'])
 venn2([netflix, amazon], set_labels=('Netflix', 'Amazon Prime'))
-plt.title('Netflix and Amazon Prime Customers')
+plt.title('Streaming Service Customers')
 plt.show()
 values = [len(netflix - amazon), len(amazon - netflix), len(netflix & amazon)]
 plt.pie(values, labels=['Only Netflix', 'Only Amazon Prime', 'Both'], autopct='%1.1f%%')
-plt.title('Streaming Service Customers')
+plt.title('Netflix and Amazon Prime Customer Distribution')
 plt.show()

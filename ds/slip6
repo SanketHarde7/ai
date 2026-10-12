@@ -6,8 +6,8 @@ Q1:
 
 import pandas as pd
 import matplotlib.pyplot as plt
-df = pd.DataFrame({'Car_Model': ['A', 'B', 'C', 'D', 'E'], 'Engine_Size': [1.0, 1.2, 1.5, 2.0, 2.5], 'Fuel_Efficiency': [22, 20, 18, 15, 12]})
-plt.scatter(df['Engine_Size'], df['Fuel_Efficiency'], c=['red', 'blue', 'green', 'orange', 'purple'])
+df = pd.DataFrame({'Car_Model': ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'], 'Engine_Size': [1.0, 1.2, 1.5, 2.0, 2.5, 1.4, 1.8, 2.2], 'Fuel_Efficiency': [22, 20, 18, 15, 12, 21, 17, 14]})
+plt.scatter(df['Engine_Size'], df['Fuel_Efficiency'], c=['red', 'blue', 'green', 'orange', 'purple', 'brown', 'pink', 'gray'])
 plt.title('Engine Size vs Fuel Efficiency')
 plt.xlabel('Engine Size (litres)')
 plt.ylabel('Fuel Efficiency (km/L)')
@@ -26,8 +26,8 @@ df = pd.read_csv('collegiate_athlete_injury_dataset.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
 df = df.dropna()
-X = df[['Training Hours Per Week']]
-y = df['Performance Score']
+X = df[['Training_Hours_Per_Week']]
+y = df['Performance_Score']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 model = LinearRegression()
 model.fit(X_train, y_train)

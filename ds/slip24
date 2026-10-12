@@ -4,32 +4,46 @@ Q1:
 # Slip 24 | Q1 (10 Marks)
 # Write a Python program to create a book_records DataFrame containing the attributes Book_ID and Book_Price for suitable sample records. Perform Data Discretization on the Book_Price attribute using Equal Width Binning. Display the original and discretized data.
 
+
 import pandas as pd
-df = pd.DataFrame({'Book_ID': [1, 2, 3, 4, 5], 'Book_Price': [100, 250, 400, 600, 900]})
+df = pd.DataFrame({'Book_ID': [1, 2, 3, 4, 5, 6, 7, 8], 'Book_Price': [100, 250, 400, 600, 900, 300, 550, 750]})
 print(df)
 df['Price_Group'] = pd.cut(df['Book_Price'], bins=3, labels=['Low', 'Medium', 'High'])
 print(df)
 
 Q2:
 # Slip 24 | Q2 (20 Marks)
-# Consider the World Cities dataset containing attributes city, country, latitude, longitude, and population information. Perform the following visualization tasks:
-# a. Create a Geospatial Visualization showing the locations of cities on a world map, using marker size to represent population.
-# b. Create a Treemap to visualize the population distribution of cities.
+# Consider the Car Price Prediction dataset and apply Polynomial Regression to predict the Selling Price based on Vehicle Age, Present Price, and Kilometers Driven. Perform the necessary data preprocessing, train and test the model, evaluate its performance using the R² Score, and visualize the actual data points along with the fitted polynomial regression curve.
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
-import squarify
-df = pd.read_csv('worldcities.csv')
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
+df = pd.read_csv('car data.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
-df = df.dropna(subset=['lat', 'lng', 'population'])
-df = df.nlargest(20, 'population')
-plt.scatter(df['lng'], df['lat'], s=df['population'] / 100000, alpha=0.5)
-plt.title('World Cities by Population')
-plt.xlabel('Longitude')
-plt.ylabel('Latitude')
-plt.show()
-squarify.plot(sizes=df['population'], label=df['city'])
-plt.title('City Population Treemap')
-plt.axis('off')
+df = df.dropna()
+df['Vehicle_Age'] = 2026 - df['Year']
+X = df[['Vehicle_Age', 'Present_Price', 'Kms_Driven']]
+y = df['Selling_Price']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+poly = PolynomialFeatures(degree=2)
+X_train_poly = poly.fit_transform(X_train)
+X_test_poly = poly.transform(X_test)
+model = LinearRegression()
+model.fit(X_train_poly, y_train)
+y_pred = model.predict(X_test_poly)
+print('R2:', r2_score(y_test, y_pred))
+plot_df = X_test.copy()
+plot_df['Actual'] = y_test
+plot_df['Predicted'] = y_pred
+plot_df = plot_df.sort_values('Present_Price')
+plt.scatter(plot_df['Present_Price'], plot_df['Actual'])
+plt.plot(plot_df['Present_Price'], plot_df['Predicted'], color='red')
+plt.title('Car Price Polynomial Regression')
+plt.xlabel('Present Price')
+plt.ylabel('Selling Price')
 plt.show()

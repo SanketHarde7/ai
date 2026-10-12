@@ -23,7 +23,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
-df = pd.read_csv('student.csv')
+df = pd.read_csv('student_dataset_v2.csv')
 # check columns with print(df.columns)
 print(df.isnull().sum())
 df = df.dropna()

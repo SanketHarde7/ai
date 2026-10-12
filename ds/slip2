@@ -4,8 +4,9 @@ Q1:
 # Slip 2 | Q1 (10 Marks)
 # Write a Python program to create an age_records DataFrame containing the attributes Person_ID and Age for suitable sample records. Perform Data Discretization on the Age attribute using Equal Width Binning. Display the original and discretized data.
 
+
 import pandas as pd
-df = pd.DataFrame({'Person_ID': [1, 2, 3, 4, 5], 'Age': [18, 25, 32, 45, 60]})
+df = pd.DataFrame({'Person_ID': [1, 2, 3, 4, 5, 6, 7, 8], 'Age': [18, 22, 25, 29, 34, 41, 48, 60]})
 print(df)
 df['Age_Group'] = pd.cut(df['Age'], bins=3, labels=['Low', 'Medium', 'High'])
 print(df)
@@ -14,20 +15,17 @@ Q2:
 # Slip 2 | Q2 (20 Marks)
 # Apply Linear Regression on a YouTube Video dataset to predict video views using relevant video attributes. Visualize the relationship between the predictor and target variable using a scatter plot and regression line.
 
+
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 df = pd.read_csv('USvideos.csv')
 # check columns with print(df.columns)
-print(df.isnull().sum())
 df = df.dropna()
 X = df[['likes']]
 y = df['views']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
 model = LinearRegression()
-model.fit(X_train, y_train)
-y_pred = model.predict(X_test)
+model.fit(X, y)
 plt.scatter(X, y)
 plt.plot(X, model.predict(X), color='red')
 plt.title('Likes vs Video Views')

@@ -4,10 +4,11 @@ Q1:
 # Slip 1 | Q1 (10 Marks)
 # Create a dataframe containing information about different products such as Price, Rating, and Number of Sales. Generate a Dendrogram to group similar products based on their characteristics.
 
+
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, dendrogram
-df = pd.DataFrame({'Product': ['A', 'B', 'C', 'D', 'E'], 'Price': [100, 120, 300, 320, 150], 'Rating': [4.2, 4.0, 4.8, 4.7, 3.9], 'Number_of_Sales': [50, 45, 80, 75, 30]})
+df = pd.DataFrame({'Product': ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8'], 'Price': [100, 120, 130, 300, 320, 310, 150, 160], 'Rating': [4.2, 4.0, 4.1, 4.8, 4.7, 4.6, 3.9, 4.0], 'Number_of_Sales': [50, 45, 48, 80, 75, 78, 30, 35]})
 Z = linkage(df[['Price', 'Rating', 'Number_of_Sales']], method='ward')
 dendrogram(Z, labels=df['Product'].tolist())
 plt.title('Product Dendrogram')
@@ -17,24 +18,24 @@ plt.show()
 
 Q2:
 # Slip 1 | Q2 (20 Marks)
-# Create a suitable dataset named Loan_application.csv containing at least 10 records with the attributes Application_ID, Age, Income, Credit_Score, Loan_Amount, Employment_Years, Debt_Ratio, and Loan_Status, where Loan_Status represents whether the loan application is Approved or Rejected.
-# Write a Python program to perform the following data reduction techniques:
-# a) Feature Selection: Identify the important features for predicting Loan_Status.
-# b) Feature Extraction: Reduce the number of numerical attributes using a suitable technique such as Principal Component Analysis (PCA).
+# Using the built-in Iris dataset, apply K-Means clustering with K = 3. Plot the datapoints, visualize the clusters with different colors, and display the cluster centroids.
+
 
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+import matplotlib.pyplot as plt
+from sklearn.datasets import load_iris
+from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-df = pd.DataFrame({'Application_ID': [1,2,3,4,5,6,7,8,9,10], 'Age': [25,40,32,50,28,45,35,29,55,38], 'Income': [30000,70000,45000,90000,35000,80000,50000,42000,95000,60000], 'Credit_Score': [650,750,680,800,620,780,710,690,820,730], 'Loan_Amount': [100000,300000,150000,400000,120000,350000,200000,160000,450000,250000], 'Employment_Years': [2,15,7,20,3,18,10,6,25,12], 'Debt_Ratio': [0.4,0.2,0.35,0.15,0.5,0.18,0.3,0.38,0.12,0.25], 'Loan_Status': ['Rejected','Approved','Rejected','Approved','Rejected','Approved','Approved','Rejected','Approved','Approved']})
-df.to_csv('Loan_application.csv', index=False)
-X = df[['Age', 'Income', 'Credit_Score', 'Loan_Amount', 'Employment_Years', 'Debt_Ratio']]
-y = df['Loan_Status'].map({'Rejected': 0, 'Approved': 1})
-model = RandomForestClassifier(random_state=1)
-model.fit(X, y)
-print(pd.Series(model.feature_importances_, index=X.columns))
+df = load_iris(as_frame=True).frame.head(10)
+X = df[['sepal length (cm)', 'petal length (cm)']]
 sc = StandardScaler()
 X_scaled = sc.fit_transform(X)
-pca = PCA(n_components=2)
-X_pca = pca.fit_transform(X_scaled)
-print(pd.DataFrame(X_pca, columns=['PC1', 'PC2']))
+model = KMeans(n_clusters=3, random_state=1, n_init=10)
+df['Cluster'] = model.fit_predict(X_scaled)
+centers = sc.inverse_transform(model.cluster_centers_)
+plt.scatter(df['sepal length (cm)'], df['petal length (cm)'], c=df['Cluster'])
+plt.scatter(centers[:, 0], centers[:, 1], color='red', marker='X', s=200)
+plt.title('Iris K-Means Clusters')
+plt.xlabel('Sepal Length')
+plt.ylabel('Petal Length')
+plt.show()
