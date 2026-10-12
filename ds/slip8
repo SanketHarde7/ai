@@ -2,13 +2,12 @@ slip8
 
 Q1:
 # Slip 8 | Q1 (10 Marks)
-# Create a suitable dataset containing information about earthquakes using Latitude, Longitude, Depth, and Magnitude. Perform the following tasks:
-# a. Create a Geospatial Visualization to display the locations of earthquakes on a map.
-# b. Use color to represent the magnitude of each earthquake.
+# Create a suitable dataset containing information about earthquakes using Latitude, Longitude, Depth, and Magnitude. Perform the following tasks:\na. Create a Geospatial Visualization to display the locations of earthquakes on a map.\nb. Use color to represent the magnitude of each earthquake.
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
-df = pd.DataFrame({'Latitude': [19.1, 20.2, 21.3, 18.4, 22.5], 'Longitude': [73.0, 74.1, 75.2, 76.3, 77.4], 'Depth': [10, 20, 15, 30, 12], 'Magnitude': [2.5, 4.0, 3.1, 5.2, 2.8]})
+df = pd.DataFrame({'Latitude': [19.1, 20.2, 21.3, 18.4, 22.5, 17.8, 23.1, 16.5], 'Longitude': [73.0, 74.1, 75.2, 76.3, 77.4, 72.6, 78.2, 74.8], 'Depth': [10, 20, 15, 30, 12, 18, 25, 14], 'Magnitude': [2.5, 4.0, 3.1, 5.2, 2.8, 3.5, 4.6, 2.9]})
 plt.scatter(df['Longitude'], df['Latitude'], c=df['Magnitude'], s=df['Magnitude'] * 30)
 plt.colorbar(label='Magnitude')
 plt.title('Earthquake Locations')
@@ -18,24 +17,28 @@ plt.show()
 
 Q2:
 # Slip 8 | Q2 (20 Marks)
-# Create a suitable dataset named Loan_application.csv containing at least 10 records with the attributes Application_ID, Age, Income, Credit_Score, Loan_Amount, Employment_Years, Debt_Ratio, and Loan_Status, where Loan_Status represents whether the loan application is Approved or Rejected.
-# Write a Python program to perform the following data reduction techniques:
-# a) Feature Selection: Identify the important features for predicting Loan_Status.
-# b) Feature Extraction: Reduce the number of numerical attributes using a suitable technique such as Principal Component Analysis (PCA).
+# Apply Simple Linear Regression on the Salary dataset to predict Salary using Years of Experience. Split the data into training and testing sets, plot the regression line, and evaluate the model using MSE.
+
 
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
-from sklearn.decomposition import PCA
-df = pd.DataFrame({'Application_ID': [1,2,3,4,5,6,7,8,9,10], 'Age': [25,40,32,50,28,45,35,29,55,38], 'Income': [30000,70000,45000,90000,35000,80000,50000,42000,95000,60000], 'Credit_Score': [650,750,680,800,620,780,710,690,820,730], 'Loan_Amount': [100000,300000,150000,400000,120000,350000,200000,160000,450000,250000], 'Employment_Years': [2,15,7,20,3,18,10,6,25,12], 'Debt_Ratio': [0.4,0.2,0.35,0.15,0.5,0.18,0.3,0.38,0.12,0.25], 'Loan_Status': ['Rejected','Approved','Rejected','Approved','Rejected','Approved','Approved','Rejected','Approved','Approved']})
-df.to_csv('Loan_application.csv', index=False)
-X = df[['Age', 'Income', 'Credit_Score', 'Loan_Amount', 'Employment_Years', 'Debt_Ratio']]
-y = df['Loan_Status'].map({'Rejected': 0, 'Approved': 1})
-model = RandomForestClassifier(random_state=1)
-model.fit(X, y)
-print(pd.Series(model.feature_importances_, index=X.columns))
-sc = StandardScaler()
-X_scaled = sc.fit_transform(X)
-pca = PCA(n_components=2)
-X_pca = pca.fit_transform(X_scaled)
-print(pd.DataFrame(X_pca, columns=['PC1', 'PC2']))
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
+df = pd.read_csv('Salary_Data.csv')
+# check columns with print(df.columns)
+print(df.isnull().sum())
+df = df.dropna()
+X = df[['YearsExperience']]
+y = df['Salary']
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=1)
+model = LinearRegression()
+model.fit(X_train, y_train)
+y_pred = model.predict(X_test)
+print('MSE:', mean_squared_error(y_test, y_pred))
+plt.scatter(X, y)
+plt.plot(X, model.predict(X), color='red')
+plt.title('Salary Prediction')
+plt.xlabel('Years of Experience')
+plt.ylabel('Salary')
+plt.show()

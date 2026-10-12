@@ -4,9 +4,10 @@ Q1:
 # Slip 9 | Q1 (10 Marks)
 # Write a Python program to create a product DataFrame with the attributes Product_ID, Price, Quantity_Sold, Discount, and Revenue. Apply Min-Max Scaling data transformation techniques on the DataFrame and display the transformed data.
 
+
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
-df = pd.DataFrame({'Product_ID': [1, 2, 3, 4], 'Price': [100, 200, 300, 400], 'Quantity_Sold': [5, 10, 15, 20], 'Discount': [5, 10, 15, 20], 'Revenue': [475, 1800, 3825, 7200]})
+df = pd.DataFrame({'Product_ID': [1, 2, 3, 4, 5, 6, 7, 8], 'Price': [100, 200, 300, 400, 150, 250, 350, 450], 'Quantity_Sold': [5, 10, 15, 20, 8, 12, 17, 22], 'Discount': [5, 10, 15, 20, 8, 12, 7, 18], 'Revenue': [475, 1800, 3825, 7200, 1104, 2640, 5533, 8100]})
 X = df[['Price', 'Quantity_Sold', 'Discount', 'Revenue']]
 sc = MinMaxScaler()
 df[['Price', 'Quantity_Sold', 'Discount', 'Revenue']] = sc.fit_transform(X)
@@ -15,6 +16,7 @@ print(df)
 Q2:
 # Slip 9 | Q2 (20 Marks)
 # Apply Logistic Regression to classify smartphones into different price categories using specifications such as RAM, storage, battery capacity, and camera resolution. Assess the model using Accuracy, F1-Score, and Confusion Matrix.
+
 
 import pandas as pd
 from sklearn.model_selection import train_test_split
